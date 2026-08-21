@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="tr" style=""><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface-container": "#ffeae0", "on-error-container": "#93000a", "on-primary-fixed": "#331200", "secondary-container": "#cdd9fe", "surface-bright": "#fff8f6", "on-secondary-fixed-variant": "#3a4664", "on-secondary": "#ffffff", "outline": "#8c7164", "error": "#ba1a1a", "secondary": "#515e7d", "on-tertiary-fixed-variant": "#004a77", "on-surface-variant": "#584236", "primary-container": "#f5710c", "tertiary-container": "#009ef6", "on-surface": "#251912", "inverse-surface": "#3b2d26", "on-primary": "#ffffff", "surface-container-low": "#fff1eb", "secondary-fixed-dim": "#b9c6ea", "surface-container-highest": "#f6ded3", "primary-fixed-dim": "#ffb68f", "on-secondary-container": "#525f7e", "on-primary-container": "#532100", "surface": "#fff8f6", "primary": "#9c4400", "surface-dim": "#edd5ca", "primary-fixed": "#ffdbca", "on-secondary-fixed": "#0d1b36", "surface-container-lowest": "#ffffff", "outline-variant": "#e0c0b0", "on-background": "#251912", "surface-variant": "#f6ded3", "surface-container-high": "#fbe3d8", "error-container": "#ffdad6", "on-tertiary": "#ffffff", "tertiary-fixed-dim": "#98cbff", "tertiary-fixed": "#cee5ff", "secondary-fixed": "#d9e2ff", "on-tertiary-fixed": "#001d33", "on-error": "#ffffff", "background": "#fff8f6", "on-tertiary-container": "#003253", "inverse-on-surface": "#ffede5", "tertiary": "#00639c", "inverse-primary": "#ffb68f", "surface-tint": "#9c4400", "on-primary-fixed-variant": "#773200" }, "borderRadius": { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" }, "spacing": { "container-padding": "20px", "stack-gap": "16px", "grid-margin": "20px", "element-gap": "12px" }, "fontFamily": { "body-lg": ["Montserrat"], "button-text": ["Montserrat"], "headline-md": ["Montserrat"], "label-caps": ["Montserrat"], "headline-lg": ["Montserrat"], "body-sm": ["Montserrat"] }, "fontSize": { "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "button-text": ["14px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }], "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "700" }], "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "600" }], "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }] } } } };</script></head><body class="bg-surface-container-lowest font-body-lg text-on-surface antialiased"><main class="min-h-screen bg-surface-container-lowest"><div class="flex flex-col w-full h-full min-h-[800px] bg-surface-container-lowest p-[20px] justify-between relative overflow-hidden" id="fiyat-parametreleri-screen">
+<!-- Content -->
+<div class="flex flex-col w-full gap-6 flex-1 overflow-y-auto pt-2 pb-4">
+<h1 class="font-headline-lg font-bold text-primary-container tracking-tight" style="font-size: clamp(20px, 6vw, 26px); font-weight:700;">Fiyat Parametreleri</h1>
+<span class="text-[13px] text-on-surface-variant -mt-4">Teklif fiyatı hesabı için gerekli.</span>
+<div class="flex flex-col gap-5 w-full">
+<div class="flex flex-col gap-1.5 w-full">
+<label class="font-label-caps text-secondary" for="f-kar-hedef">KAR HEDEFİ (%)</label>
+<div class="flex items-center border-b-2 border-outline-variant focus-within:border-primary transition-colors">
+<input id="f-kar-hedef" type="text" inputmode="numeric" pattern="[0-9]*" value="35" class="w-full bg-transparent border-0 font-body-lg text-on-surface py-2 outline-none placeholder:text-outline"/>
+<span class="font-label-caps text-secondary whitespace-nowrap pl-2">%</span>
+</div>
+</div>
+<div class="flex flex-col gap-1.5 w-full">
+<label class="font-label-caps text-secondary" for="f-profil-fiyat">BOYALI PROFİL FİYATI (USD/KG)</label>
+<div class="flex items-center border-b-2 border-outline-variant focus-within:border-primary transition-colors">
+<input id="f-profil-fiyat" type="text" inputmode="decimal" value="6.80" class="w-full bg-transparent border-0 font-body-lg text-on-surface py-2 outline-none placeholder:text-outline"/>
+<span class="font-label-caps text-secondary whitespace-nowrap pl-2">USD/KG</span>
+</div>
+</div>
+<div class="flex flex-col gap-1.5 w-full">
+<label class="font-label-caps text-secondary" for="f-cam-seffaf">ŞEFFAF CAM BİRİM FİYATI (USD/M²)</label>
+<div class="flex items-center border-b-2 border-outline-variant focus-within:border-primary transition-colors">
+<input id="f-cam-seffaf" type="text" inputmode="numeric" pattern="[0-9]*" value="38" class="w-full bg-transparent border-0 font-body-lg text-on-surface py-2 outline-none placeholder:text-outline"/>
+<span class="font-label-caps text-secondary whitespace-nowrap pl-2">USD/M²</span>
+</div>
+</div>
+<div class="flex flex-col gap-1.5 w-full">
+<label class="font-label-caps text-secondary" for="f-cam-konfor">KONFOR CAM BİRİM FİYATI (USD/M²)</label>
+<div class="flex items-center border-b-2 border-outline-variant focus-within:border-primary transition-colors">
+<input id="f-cam-konfor" type="text" inputmode="numeric" pattern="[0-9]*" value="56" class="w-full bg-transparent border-0 font-body-lg text-on-surface py-2 outline-none placeholder:text-outline"/>
+<span class="font-label-caps text-secondary whitespace-nowrap pl-2">USD/M²</span>
+</div>
+</div>
+<div class="flex flex-col gap-1.5 w-full">
+<label class="font-label-caps text-secondary" for="f-cam-renkli">RENKLİ CAM BİRİM FİYATI (USD/M²)</label>
+<div class="flex items-center border-b-2 border-outline-variant focus-within:border-primary transition-colors">
+<input id="f-cam-renkli" type="text" inputmode="numeric" pattern="[0-9]*" value="47" class="w-full bg-transparent border-0 font-body-lg text-on-surface py-2 outline-none placeholder:text-outline"/>
+<span class="font-label-caps text-secondary whitespace-nowrap pl-2">USD/M²</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Nav -->
+<div class="w-full pb-4 pt-6 flex gap-3">
+<button id="back-btn" class="flex-1 h-[56px] rounded-full border-2 border-primary text-primary font-button-text flex items-center justify-center gap-2 active:scale-[0.98] transition-transform">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+<span class="text-[16px]">GERİ</span>
+</button>
+<button id="prepare-btn" class="flex-1 min-w-0 h-[56px] rounded-full bg-primary-container text-on-primary font-button-text flex items-center justify-center px-2 hover:bg-primary transition-colors active:scale-[0.98]">
+<span class="whitespace-nowrap" style="font-size: clamp(10px, 3.4vw, 14px);">TEKLİFİ HAZIRLA</span>
+</button>
+</div>
+</div>
+<script>
+  var CONTROL_KEYS = ['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'];
+
+  function sanitizeIntInput(input) {
+    input.addEventListener('keydown', function(e) {
+      var isDigit = e.key >= '0' && e.key <= '9';
+      var isControlKey = CONTROL_KEYS.indexOf(e.key) !== -1;
+      if (!isDigit && !isControlKey && !e.ctrlKey && !e.metaKey) e.preventDefault();
+    });
+    input.addEventListener('input', function() {
+      var digitsOnly = input.value.replace(/[^0-9]/g, '');
+      if (input.value !== digitsOnly) input.value = digitsOnly;
+    });
+    input.addEventListener('paste', function(e) {
+      e.preventDefault();
+      var text = (e.clipboardData || window.clipboardData).getData('text').replace(/[^0-9]/g, '');
+      document.execCommand('insertText', false, text);
+    });
+  }
+
+  function sanitizeDecimalInput(input) {
+    input.addEventListener('keydown', function(e) {
+      var isDigit = e.key >= '0' && e.key <= '9';
+      var isDot = e.key === '.' && input.value.indexOf('.') === -1;
+      var isControlKey = CONTROL_KEYS.indexOf(e.key) !== -1;
+      if (!isDigit && !isDot && !isControlKey && !e.ctrlKey && !e.metaKey) e.preventDefault();
+    });
+    input.addEventListener('input', function() {
+      var cleaned = input.value.replace(/[^0-9.]/g, '');
+      var firstDot = cleaned.indexOf('.');
+      if (firstDot !== -1) {
+        cleaned = cleaned.slice(0, firstDot + 1) + cleaned.slice(firstDot + 1).replace(/\./g, '');
+      }
+      if (input.value !== cleaned) input.value = cleaned;
+    });
+    input.addEventListener('paste', function(e) {
+      e.preventDefault();
+      var text = (e.clipboardData || window.clipboardData).getData('text').replace(/[^0-9.]/g, '');
+      var firstDot = text.indexOf('.');
+      if (firstDot !== -1) {
+        text = text.slice(0, firstDot + 1) + text.slice(firstDot + 1).replace(/\./g, '');
+      }
+      document.execCommand('insertText', false, text);
+    });
+  }
+
+  var karHedefEl = document.getElementById('f-kar-hedef');
+  sanitizeIntInput(karHedefEl);
+  sanitizeIntInput(document.getElementById('f-cam-seffaf'));
+  sanitizeIntInput(document.getElementById('f-cam-konfor'));
+  sanitizeIntInput(document.getElementById('f-cam-renkli'));
+  sanitizeDecimalInput(document.getElementById('f-profil-fiyat'));
+
+  document.getElementById('back-btn').addEventListener('click', function() {
+    window.location.href = '../giyometre_teklifi_hazirla/code.html';
+  });
+  document.getElementById('prepare-btn').addEventListener('click', function() {
+    var state = JSON.parse(localStorage.getItem('giyometreState') || '{}');
+    state.karHedefiYuzde = parseInt(karHedefEl.value, 10) || 0;
+    state.boyaliProfilFiyatiUsdKg = parseFloat(document.getElementById('f-profil-fiyat').value) || 0;
+    state.seffafCamFiyatiUsdM2 = parseInt(document.getElementById('f-cam-seffaf').value, 10) || 0;
+    state.konforCamFiyatiUsdM2 = parseInt(document.getElementById('f-cam-konfor').value, 10) || 0;
+    state.renkliCamFiyatiUsdM2 = parseInt(document.getElementById('f-cam-renkli').value, 10) || 0;
+    localStorage.setItem('giyometreState', JSON.stringify(state));
+    window.location.href = '../giyometre_ciktilar/code.html';
+  });
+</script>
+</main>
+</body></html>

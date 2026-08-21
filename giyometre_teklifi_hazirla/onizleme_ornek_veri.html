@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="tr" style=""><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface-container": "#ffeae0", "on-error-container": "#93000a", "on-primary-fixed": "#331200", "secondary-container": "#cdd9fe", "surface-bright": "#fff8f6", "on-secondary-fixed-variant": "#3a4664", "on-secondary": "#ffffff", "outline": "#8c7164", "error": "#ba1a1a", "secondary": "#515e7d", "on-tertiary-fixed-variant": "#004a77", "on-surface-variant": "#584236", "primary-container": "#f5710c", "tertiary-container": "#009ef6", "on-surface": "#251912", "inverse-surface": "#3b2d26", "on-primary": "#ffffff", "surface-container-low": "#fff1eb", "secondary-fixed-dim": "#b9c6ea", "surface-container-highest": "#f6ded3", "primary-fixed-dim": "#ffb68f", "on-secondary-container": "#525f7e", "on-primary-container": "#532100", "surface": "#fff8f6", "primary": "#9c4400", "surface-dim": "#edd5ca", "primary-fixed": "#ffdbca", "on-secondary-fixed": "#0d1b36", "surface-container-lowest": "#ffffff", "outline-variant": "#e0c0b0", "on-background": "#251912", "surface-variant": "#f6ded3", "surface-container-high": "#fbe3d8", "error-container": "#ffdad6", "on-tertiary": "#ffffff", "tertiary-fixed-dim": "#98cbff", "tertiary-fixed": "#cee5ff", "secondary-fixed": "#d9e2ff", "on-tertiary-fixed": "#001d33", "on-error": "#ffffff", "background": "#fff8f6", "on-tertiary-container": "#003253", "inverse-on-surface": "#ffede5", "tertiary": "#00639c", "inverse-primary": "#ffb68f", "surface-tint": "#9c4400", "on-primary-fixed-variant": "#773200" }, "borderRadius": { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" }, "spacing": { "container-padding": "20px", "stack-gap": "16px", "grid-margin": "20px", "element-gap": "12px" }, "fontFamily": { "body-lg": ["Montserrat"], "button-text": ["Montserrat"], "headline-md": ["Montserrat"], "label-caps": ["Montserrat"], "headline-lg": ["Montserrat"], "body-sm": ["Montserrat"] }, "fontSize": { "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "button-text": ["14px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }], "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "700" }], "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "600" }], "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }] } } } };</script></head><body class="bg-surface-container-lowest font-body-lg text-on-surface antialiased"><main class="min-h-screen bg-surface-container-lowest"><div class="flex flex-col w-full h-full min-h-[800px] bg-surface-container-lowest p-[20px] justify-between relative overflow-hidden" id="teklifi-hazirla-screen">
+<!-- ÖNİZLEME: bu dosya örnek/test veriyle sabitlenmiştir, sadece görsel inceleme içindir. Gerçek uygulama akışı code.html + localStorage ile çalışır. -->
+<!-- Content -->
+<div class="flex flex-col w-full gap-5 flex-1 overflow-y-auto pt-2 pb-4">
+<h1 class="font-headline-lg font-bold text-primary-container tracking-tight" style="font-size: clamp(20px, 6vw, 26px); font-weight:700;">Teklifi Hazırla</h1>
+
+<div class="flex flex-col gap-4 w-full">
+
+<div class="flex flex-col gap-1">
+<span class="font-label-caps text-secondary">MÜŞTERİ</span>
+<span id="s-musteri" class="font-body-lg text-on-surface font-semibold"></span>
+<span id="s-yer" class="text-[13px] text-on-surface-variant"></span>
+</div>
+
+<div class="grid grid-cols-3 gap-2">
+<div class="flex flex-col gap-1 min-w-0">
+<span class="font-label-caps text-secondary" style="font-size:10px;">PROFİL RENGİ</span>
+<span id="s-renk" class="text-[13px] font-semibold leading-snug"></span>
+</div>
+<div class="flex flex-col gap-1 min-w-0">
+<span class="font-label-caps text-secondary" style="font-size:10px;">CAM</span>
+<span id="s-cam" class="text-[13px] font-semibold leading-snug"></span>
+</div>
+<div class="flex flex-col gap-1 min-w-0">
+<span class="font-label-caps text-secondary" style="font-size:10px;">SİSTEM</span>
+<span id="s-aksesuar" class="text-[13px] font-semibold leading-snug"></span>
+</div>
+</div>
+
+<div class="flex flex-col gap-2">
+<span class="font-label-caps text-secondary">GİYOTİN LİSTESİ</span>
+<div id="s-poz-list" class="flex flex-col w-full"></div>
+</div>
+
+<div class="flex justify-between border-t-2 border-outline-variant pt-3 mt-1">
+<div class="flex flex-col">
+<span class="font-label-caps text-secondary" style="font-size:10px;">TOPLAM ADET</span>
+<span id="s-toplam-adet" class="text-[18px] font-bold text-on-tertiary-fixed-variant"></span>
+</div>
+<div class="flex flex-col text-right">
+<span class="font-label-caps text-secondary" style="font-size:10px;">TOPLAM ALAN</span>
+<span id="s-toplam-alan" class="text-[18px] font-bold text-on-tertiary-fixed-variant"></span>
+</div>
+</div>
+
+</div>
+
+</div>
+<!-- Bottom Nav -->
+<div class="w-full pb-4 pt-6 flex gap-3">
+<button id="back-btn" class="flex-1 h-[56px] rounded-full border-2 border-primary text-primary font-button-text flex items-center justify-center gap-2 active:scale-[0.98] transition-transform">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+<span class="text-[16px]">GERİ</span>
+</button>
+<button id="prepare-btn" class="flex-1 h-[56px] rounded-full bg-primary-container text-on-primary font-button-text flex items-center justify-center gap-2 hover:bg-primary transition-colors active:scale-[0.98]">
+<span class="text-[16px]">İLERİ</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<script>
+  (function() {
+    // ÖNİZLEME İÇİN SABİT ÖRNEK VERİ — gerçek uygulamada bu localStorage'dan gelir (bkz. code.html)
+    var state = {
+      unvan: 'Deniz Yapı İnşaat Ltd. Şti.',
+      projeYeri: 'İzmir / Karşıyaka',
+      renk: '7016 Mat',
+      ralKod: '',
+      cam: 'Şeffaf',
+      aksesuar: 'Kayışlı',
+      pozRows: [
+        { genislik: 1500, yukseklik: 1800, miktar: 4 },
+        { genislik: 1000, yukseklik: 2000, miktar: 2 },
+        { genislik: 1200, yukseklik: 1200, miktar: 6 }
+      ]
+    };
+
+    document.getElementById('s-musteri').textContent = state.unvan || '—';
+    document.getElementById('s-yer').textContent = state.projeYeri || '—';
+
+    var renkText = state.renk || '—';
+    if (state.renk === 'Diğer' && state.ralKod) renkText = 'Diğer (' + state.ralKod + ')';
+    document.getElementById('s-renk').textContent = renkText;
+    document.getElementById('s-cam').textContent = state.cam || '—';
+    document.getElementById('s-aksesuar').textContent = (state.aksesuar || '—') + ' sistem';
+
+    var pozRows = state.pozRows || [];
+    var listEl = document.getElementById('s-poz-list');
+    var toplamAdet = 0;
+    var toplamAlanM2 = 0;
+    pozRows.forEach(function(row, i) {
+      var pozLabel = 'P' + (i + 1 < 10 ? '0' + (i + 1) : (i + 1));
+      var line = document.createElement('div');
+      line.className = 'flex items-center justify-between text-[13px] py-1.5 border-b border-outline-variant/50';
+      line.innerHTML =
+        '<span class="text-on-surface">' + pozLabel + ' · ' + row.genislik + '×' + row.yukseklik + ' mm</span>' +
+        '<span class="font-semibold text-on-surface">' + row.miktar + ' adet</span>';
+      listEl.appendChild(line);
+      toplamAdet += row.miktar;
+      toplamAlanM2 += (row.genislik / 1000) * (row.yukseklik / 1000) * row.miktar;
+    });
+    if (pozRows.length === 0) {
+      listEl.innerHTML = '<span class="text-[13px] text-on-surface-variant">Ölçü girilmedi.</span>';
+    }
+    document.getElementById('s-toplam-adet').textContent = toplamAdet + ' adet';
+    document.getElementById('s-toplam-alan').textContent = toplamAlanM2.toFixed(2) + ' m²';
+  })();
+
+  document.getElementById('back-btn').addEventListener('click', function() {
+    window.location.href = '../giyometre_olcu_adet_girisi/code.html';
+  });
+  document.getElementById('prepare-btn').addEventListener('click', function() {
+    console.log('Önizleme: Teklif Çıktısı ekranı henüz üretilmedi');
+  });
+</script>
+</main>
+</body></html>

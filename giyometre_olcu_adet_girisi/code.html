@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+<html lang="tr" style=""><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "surface-container": "#ffeae0", "on-error-container": "#93000a", "on-primary-fixed": "#331200", "secondary-container": "#cdd9fe", "surface-bright": "#fff8f6", "on-secondary-fixed-variant": "#3a4664", "on-secondary": "#ffffff", "outline": "#8c7164", "error": "#ba1a1a", "secondary": "#515e7d", "on-tertiary-fixed-variant": "#004a77", "on-surface-variant": "#584236", "primary-container": "#f5710c", "tertiary-container": "#009ef6", "on-surface": "#251912", "inverse-surface": "#3b2d26", "on-primary": "#ffffff", "surface-container-low": "#fff1eb", "secondary-fixed-dim": "#b9c6ea", "surface-container-highest": "#f6ded3", "primary-fixed-dim": "#ffb68f", "on-secondary-container": "#525f7e", "on-primary-container": "#532100", "surface": "#fff8f6", "primary": "#9c4400", "surface-dim": "#edd5ca", "primary-fixed": "#ffdbca", "on-secondary-fixed": "#0d1b36", "surface-container-lowest": "#ffffff", "outline-variant": "#e0c0b0", "on-background": "#251912", "surface-variant": "#f6ded3", "surface-container-high": "#fbe3d8", "error-container": "#ffdad6", "on-tertiary": "#ffffff", "tertiary-fixed-dim": "#98cbff", "tertiary-fixed": "#cee5ff", "secondary-fixed": "#d9e2ff", "on-tertiary-fixed": "#001d33", "on-error": "#ffffff", "background": "#fff8f6", "on-tertiary-container": "#003253", "inverse-on-surface": "#ffede5", "tertiary": "#00639c", "inverse-primary": "#ffb68f", "surface-tint": "#9c4400", "on-primary-fixed-variant": "#773200" }, "borderRadius": { "DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px" }, "spacing": { "container-padding": "20px", "stack-gap": "16px", "grid-margin": "20px", "element-gap": "12px" }, "fontFamily": { "body-lg": ["Montserrat"], "button-text": ["Montserrat"], "headline-md": ["Montserrat"], "label-caps": ["Montserrat"], "headline-lg": ["Montserrat"], "body-sm": ["Montserrat"] }, "fontSize": { "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }], "button-text": ["14px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "700" }], "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "700" }], "label-caps": ["12px", { "lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "600" }], "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.02em", "fontWeight": "700" }], "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }] } } } };</script></head><body class="bg-surface-container-lowest font-body-lg text-on-surface antialiased"><main class="min-h-screen bg-surface-container-lowest"><div class="flex flex-col w-full h-full min-h-[800px] bg-surface-container-lowest p-[20px] justify-between relative overflow-hidden" id="olcu-adet-screen">
+<!-- Content -->
+<div class="flex flex-col w-full gap-5 flex-1 overflow-y-auto pt-2 pb-4">
+<h1 class="font-headline-lg font-bold text-primary-container tracking-tight" style="font-size: clamp(20px, 6vw, 26px); font-weight:700;">Ölçü ve Adet Girişi</h1>
+
+<div class="flex items-center gap-2 w-full">
+<span class="font-label-caps text-secondary" style="width:36px;">POZ</span>
+<span class="font-label-caps text-secondary flex-1 text-center">GENİŞLİK (mm)</span>
+<span class="font-label-caps text-secondary flex-1 text-center">YÜKSEKLİK (mm)</span>
+<span class="font-label-caps text-secondary flex-1 text-center">MİKTAR (adet)</span>
+</div>
+
+<div id="rows-wrap" class="flex flex-col gap-4 w-full"></div>
+
+<button type="button" id="add-row-btn" class="self-center w-[48px] h-[48px] rounded-full bg-primary-container text-on-primary flex items-center justify-center shadow-md active:scale-95 transition-transform mt-1">
+<span class="material-symbols-outlined text-[26px]">add</span>
+</button>
+<p id="max-note" class="text-[11px] text-secondary text-center" style="display:none;">En fazla 20 POZ eklenebilir.</p>
+
+</div>
+<!-- Bottom Nav -->
+<div class="w-full pb-4 pt-6 flex gap-3">
+<button id="back-btn" class="flex-1 h-[56px] rounded-full border-2 border-primary text-primary font-button-text flex items-center justify-center gap-2 active:scale-[0.98] transition-transform">
+<span class="material-symbols-outlined text-[20px]">arrow_back</span>
+<span class="text-[16px]">GERİ</span>
+</button>
+<button id="next-btn" class="flex-1 h-[56px] rounded-full bg-primary-container text-on-primary font-button-text flex items-center justify-center gap-2 hover:bg-primary transition-colors active:scale-[0.98]">
+<span class="text-[16px]">İLERİ</span>
+<span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</div>
+</div>
+<script>
+  var MAX_ROWS = 20;
+  var GENISLIK_MIN = 1000, GENISLIK_MAX = 3850;
+  var YUKSEKLIK_MIN = 1500, YUKSEKLIK_MAX = 3500;
+  var MAX_ALAN_M2 = 10;
+  var rowCount = 0;
+  var rowsWrap = document.getElementById('rows-wrap');
+  var addBtn = document.getElementById('add-row-btn');
+  var maxNote = document.getElementById('max-note');
+
+  var INT_INPUT_CLASS = 'flex-1 min-w-0 text-center bg-transparent border-0 border-b-2 border-outline-variant focus:border-primary font-body-lg text-on-surface py-2 outline-none placeholder:text-outline transition-colors';
+
+  function sanitizeIntInput(input) {
+    input.addEventListener('input', function() {
+      var digitsOnly = input.value.replace(/[^0-9]/g, '');
+      if (digitsOnly !== input.value) input.value = digitsOnly;
+    });
+    input.addEventListener('keydown', function(e) {
+      var isDigit = e.key >= '0' && e.key <= '9';
+      var isControlKey = ['Backspace','Delete','Tab','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End'].indexOf(e.key) !== -1;
+      if (!isDigit && !isControlKey && !e.ctrlKey && !e.metaKey) e.preventDefault();
+    });
+    input.addEventListener('paste', function(e) {
+      e.preventDefault();
+      var text = (e.clipboardData || window.clipboardData).getData('text').replace(/[^0-9]/g, '');
+      document.execCommand('insertText', false, text);
+    });
+  }
+
+  function addRow() {
+    if (rowCount >= MAX_ROWS) return;
+    rowCount++;
+    var pozLabel = 'P' + (rowCount < 10 ? '0' + rowCount : rowCount);
+    var wrapper = document.createElement('div');
+    wrapper.className = 'flex flex-col gap-1 w-full';
+    wrapper.dataset.hasError = '0';
+
+    var row = document.createElement('div');
+    row.className = 'flex items-center gap-2 w-full';
+    row.innerHTML =
+      '<span class="font-label-caps text-on-surface" style="width:36px;">' + pozLabel + '</span>' +
+      '<input type="text" inputmode="numeric" pattern="[0-9]*" placeholder="0" class="' + INT_INPUT_CLASS + '"/>' +
+      '<input type="text" inputmode="numeric" pattern="[0-9]*" placeholder="0" class="' + INT_INPUT_CLASS + '"/>' +
+      '<input type="text" inputmode="numeric" pattern="[0-9]*" placeholder="0" class="' + INT_INPUT_CLASS + '"/>';
+
+    var errorEl = document.createElement('p');
+    errorEl.className = 'text-[11px] text-error text-right';
+    errorEl.style.display = 'none';
+
+    wrapper.appendChild(row);
+    wrapper.appendChild(errorEl);
+    rowsWrap.appendChild(wrapper);
+
+    var inputs = row.querySelectorAll('input');
+    inputs.forEach(sanitizeIntInput);
+
+    function validate() {
+      var genislik = parseInt(inputs[0].value, 10) || 0;
+      var yukseklik = parseInt(inputs[1].value, 10) || 0;
+      var msg = '';
+      if (inputs[0].value && (genislik < GENISLIK_MIN || genislik > GENISLIK_MAX)) {
+        msg = 'Genişlik ' + GENISLIK_MIN + '-' + GENISLIK_MAX + ' mm aralığında olmalı.';
+      } else if (inputs[1].value && (yukseklik < YUKSEKLIK_MIN || yukseklik > YUKSEKLIK_MAX)) {
+        msg = 'Yükseklik ' + YUKSEKLIK_MIN + '-' + YUKSEKLIK_MAX + ' mm aralığında olmalı.';
+      } else if (genislik > 0 && yukseklik > 0) {
+        var alan = (genislik * yukseklik) / 1000000;
+        if (alan > MAX_ALAN_M2) {
+          msg = 'Alan ' + alan.toFixed(2) + ' m² — izin verilen üst sınır ' + MAX_ALAN_M2 + ' m².';
+        }
+      }
+      inputs[0].classList.toggle('border-error', !!msg);
+      inputs[1].classList.toggle('border-error', !!msg);
+      errorEl.textContent = msg;
+      errorEl.style.display = msg ? 'block' : 'none';
+      wrapper.dataset.hasError = msg ? '1' : '0';
+    }
+    inputs[0].addEventListener('input', validate);
+    inputs[1].addEventListener('input', validate);
+
+    if (rowCount >= MAX_ROWS) {
+      addBtn.style.display = 'none';
+      maxNote.style.display = 'block';
+    }
+  }
+
+  addBtn.addEventListener('click', addRow);
+  addRow();
+
+  document.getElementById('back-btn').addEventListener('click', function() {
+    window.location.href = '../giyometre_urun_secimleri/code.html';
+  });
+  document.getElementById('next-btn').addEventListener('click', function() {
+    var hasError = false;
+    var pozRows = [];
+    rowsWrap.querySelectorAll(':scope > div').forEach(function(wrapper) {
+      if (wrapper.dataset.hasError === '1') hasError = true;
+      var inputs = wrapper.querySelectorAll('input');
+      var genislik = parseInt(inputs[0].value, 10) || 0;
+      var yukseklik = parseInt(inputs[1].value, 10) || 0;
+      var miktar = parseInt(inputs[2].value, 10) || 0;
+      if (genislik > 0 && yukseklik > 0 && miktar > 0) {
+        pozRows.push({ genislik: genislik, yukseklik: yukseklik, miktar: miktar });
+      }
+    });
+    if (hasError) return;
+    var state = JSON.parse(localStorage.getItem('giyometreState') || '{}');
+    state.pozRows = pozRows;
+    localStorage.setItem('giyometreState', JSON.stringify(state));
+    window.location.href = '../giyometre_teklifi_hazirla/code.html';
+  });
+</script>
+</main>
+</body></html>

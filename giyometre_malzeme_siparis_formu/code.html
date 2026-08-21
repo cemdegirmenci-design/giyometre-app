@@ -14,7 +14,7 @@
 </button>
 </div>
 <!-- Bottom Nav -->
-<div class="w-full pb-4 pt-6 flex gap-3 mb-[28px]">
+<div class="w-full pb-4 pt-6 flex gap-3" style="transform: translateY(-28px);">
 <button id="back-btn" class="flex-1 h-[56px] rounded-full border-2 border-primary text-primary font-button-text flex items-center justify-center gap-2 active:scale-[0.98] transition-transform">
 <span class="material-symbols-outlined text-[20px]">arrow_back</span>
 <span class="text-[16px]">GERİ</span>
@@ -206,10 +206,32 @@
     window.location.href = url;
   }
 
+  // Minik buton tık sesi — Web Audio ile üretilir, harici dosya gerekmez.
+  var audioCtx = null;
+  function playClickTone() {
+    var Ctx = window.AudioContext || window.webkitAudioContext;
+    if (!Ctx) return;
+    if (!audioCtx) audioCtx = new Ctx();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    var t0 = audioCtx.currentTime;
+    var osc = audioCtx.createOscillator();
+    var gain = audioCtx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = 700;
+    gain.gain.setValueAtTime(0, t0);
+    gain.gain.linearRampToValueAtTime(0.1, t0 + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t0 + 0.07);
+    osc.connect(gain).connect(audioCtx.destination);
+    osc.start(t0);
+    osc.stop(t0 + 0.09);
+  }
+
   document.getElementById('back-btn').addEventListener('click', function() {
+    playClickTone();
     window.location.href = '../giyometre_ciktilar/code.html';
   });
   document.getElementById('finish-btn').addEventListener('click', function() {
+    playClickTone();
     localStorage.removeItem('giyometreState');
     window.close();
     setTimeout(function() {
@@ -218,6 +240,7 @@
   });
 
   document.getElementById('open-btn').addEventListener('click', function() {
+    playClickTone();
     var btn = this;
     btn.disabled = true;
     btn.querySelector('span:last-child').textContent = 'OLUŞTURULUYOR…';

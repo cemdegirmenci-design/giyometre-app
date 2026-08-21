@@ -114,10 +114,56 @@
     }
   })();
 
+  // Minik UI sesleri — tarayıcının/PWA'nın telefonun kendi sistem seslerine erişimi
+  // yok, bu yüzden Web Audio ile kısa, hafif tonlar üretiliyor (harici dosya gerekmez,
+  // Android ve iOS'ta aynı şekilde çalışır).
+  var audioCtx = null;
+  var launchChimePlayed = false;
+  function getAudioCtx() {
+    if (!audioCtx) {
+      var Ctx = window.AudioContext || window.webkitAudioContext;
+      if (Ctx) audioCtx = new Ctx();
+    }
+    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+    return audioCtx;
+  }
+  function playTone(freq, duration, startDelay, volume) {
+    var ctx = getAudioCtx();
+    if (!ctx) return;
+    var t0 = ctx.currentTime + (startDelay || 0);
+    var osc = ctx.createOscillator();
+    var gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0, t0);
+    gain.gain.linearRampToValueAtTime(volume || 0.15, t0 + 0.01);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t0 + duration);
+    osc.connect(gain).connect(ctx.destination);
+    osc.start(t0);
+    osc.stop(t0 + duration + 0.02);
+  }
+  function playLaunchChime() {
+    if (launchChimePlayed) return;
+    launchChimePlayed = true;
+    playTone(523.25, 0.16, 0, 0.12);
+    playTone(783.99, 0.22, 0.1, 0.12);
+  }
+  function playClickTone() {
+    playTone(700, 0.07, 0, 0.1);
+  }
+  // Açılışta hemen çalmayı dene (Android çoğunlukla izin verir); tarayıcı otomatik
+  // sesi engellerse (iOS Safari) ekrana ilk dokunuşta çalar.
+  playLaunchChime();
+  document.addEventListener('pointerdown', function firstTouch() {
+    playLaunchChime();
+    document.removeEventListener('pointerdown', firstTouch);
+  }, { once: true });
+
   // Button interaction
   const startBtn = document.getElementById('start-btn');
   if(startBtn) {
     startBtn.addEventListener('click', function(e) {
+      playClickTone();
       // Ripple effect
       const rect = this.getBoundingClientRect();
       const x = e.clientX - rect.left;

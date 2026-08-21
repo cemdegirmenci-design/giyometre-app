@@ -153,26 +153,53 @@
     return html;
   }
 
-  // Generic: capture a (possibly tall) off-screen container and split it into A4 landscape pages.
+  // Generic: capture a (possibly tall) off-screen container and split it into A4 landscape
+  // pages. Row-aware: measures every <tr>'s position in the live DOM before rasterizing, then
+  // snaps each page break up to just before any row it would otherwise cut through, so a
+  // profil's kesim-grafiği row never renders half on one page and half on the next.
   function generateMultiPagePdf(containerEl) {
+    var containerTop = containerEl.getBoundingClientRect().top;
+    var rowBoundsCss = Array.prototype.map.call(containerEl.querySelectorAll('tr'), function(tr) {
+      var r = tr.getBoundingClientRect();
+      return { top: r.top - containerTop, bottom: r.bottom - containerTop };
+    });
+
     return html2canvas(containerEl, { scale: 2, useCORS: true, backgroundColor: '#ffffff' }).then(function(canvas) {
       var pageWidthMm = 297, pageHeightMm = 210;
       var pxPerMm = canvas.width / pageWidthMm;
-      var pageHeightPx = Math.floor(pageHeightMm * pxPerMm);
-      var totalPages = Math.max(1, Math.ceil(canvas.height / pageHeightPx));
+      var scale = canvas.width / containerEl.offsetWidth;
+      var rowBoundsPx = rowBoundsCss.map(function(b) { return { top: b.top * scale, bottom: b.bottom * scale }; });
+      var maxPageHeightPx = Math.floor(pageHeightMm * pxPerMm);
 
       var pdf = new window.jspdf.jsPDF({ unit: 'mm', format: 'a4', orientation: 'landscape' });
-      for (var i = 0; i < totalPages; i++) {
+      var cursor = 0;
+      var pageIndex = 0;
+      while (cursor < canvas.height) {
+        var naiveEnd = Math.min(cursor + maxPageHeightPx, canvas.height);
+        var sliceEnd = naiveEnd;
+        if (naiveEnd < canvas.height) {
+          for (var i = 0; i < rowBoundsPx.length; i++) {
+            var row = rowBoundsPx[i];
+            if (row.top < naiveEnd && row.bottom > naiveEnd) {
+              sliceEnd = row.top;
+              break;
+            }
+          }
+          if (sliceEnd <= cursor) sliceEnd = naiveEnd; // guard: never emit a zero/negative-height page
+        }
+
         var sliceCanvas = document.createElement('canvas');
         sliceCanvas.width = canvas.width;
-        var remaining = canvas.height - i * pageHeightPx;
-        sliceCanvas.height = Math.min(pageHeightPx, remaining);
+        sliceCanvas.height = sliceEnd - cursor;
         var ctx = sliceCanvas.getContext('2d');
-        ctx.drawImage(canvas, 0, i * pageHeightPx, canvas.width, sliceCanvas.height, 0, 0, canvas.width, sliceCanvas.height);
+        ctx.drawImage(canvas, 0, cursor, canvas.width, sliceCanvas.height, 0, 0, canvas.width, sliceCanvas.height);
         var imgData = sliceCanvas.toDataURL('image/jpeg', 0.92);
-        if (i > 0) pdf.addPage();
+        if (pageIndex > 0) pdf.addPage();
         var sliceHeightMm = sliceCanvas.height / pxPerMm;
         pdf.addImage(imgData, 'JPEG', 0, 0, pageWidthMm, sliceHeightMm);
+
+        cursor = sliceEnd;
+        pageIndex++;
       }
       return pdf;
     });

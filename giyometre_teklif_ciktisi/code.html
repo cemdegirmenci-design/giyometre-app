@@ -231,6 +231,38 @@
     document.getElementById('open-btn').querySelector('span:last-child').textContent = 'TEKLİF FORMUNU AÇ';
   }
 
+  // Hands the PDF to the OS share sheet as a real file (WhatsApp/Telegram/Mail all
+  // receive an actual .pdf attachment this way) — falls back to a plain download
+  // if the browser can't share files.
+  function shareOrDownloadPdf(blob, filename) {
+    var file = new File([blob], filename, { type: 'application/pdf' });
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      navigator.share({ files: [file] }).then(function() {
+        showError('PDF paylaşıldı.');
+      }).catch(function(err) {
+        if (err && err.name === 'AbortError') {
+          showError('Paylaşım iptal edildi.');
+        } else {
+          downloadPdf(blob, filename);
+        }
+      });
+    } else {
+      downloadPdf(blob, filename);
+    }
+  }
+
+  function downloadPdf(blob, filename) {
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function() { URL.revokeObjectURL(url); }, 60000);
+    showError('PDF indirildi.');
+  }
+
   document.getElementById('back-btn').addEventListener('click', function() {
     window.location.href = '../giyometre_ciktilar/code.html';
   });
@@ -305,8 +337,7 @@
       setTimeout(function() {
         generateMultiPagePdf(document.getElementById('a4-page')).then(function(pdf) {
           var blob = pdf.output('blob');
-          var url = URL.createObjectURL(blob);
-          window.location.href = url;
+          shareOrDownloadPdf(blob, 'teklif-formu.pdf');
         }).catch(function(err) {
           showError('PDF oluşturulurken bir hata oluştu: ' + (err && err.message ? err.message : err));
         });

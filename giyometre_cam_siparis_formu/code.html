@@ -80,7 +80,7 @@
   function calcCam(genislik, yukseklik, miktarAdet) {
     var kanatDikmeH8 = round0((yukseklik - 305) / 3);
     var en = genislik - 142;
-    var boy = kanatDikmeH8;
+    var boy = kanatDikmeH8 + 29; // cam, çerçeve içine Kanat Dikme Profili'nden 29mm daha derin oturuyor
     var panelAdedi = 3 * miktarAdet;
     var alan = roundUp2(en * boy * panelAdedi / 1000000);
     return { en: en, boy: boy, panelAdedi: panelAdedi, alan: alan };

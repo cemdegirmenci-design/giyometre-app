@@ -180,7 +180,7 @@
     var iscilik = MONTAJ_ISCILIGI_USD * miktarAdet;
 
     var camEn = genislik - 142;
-    var camBoy = H8;
+    var camBoy = H8 + 29; // cam, çerçeve içine Kanat Dikme Profili'nden 29mm daha derin oturuyor
     var camPanelAdedi = 3 * miktarAdet;
     var camAlan = roundUp2(camEn * camBoy * camPanelAdedi / 1000000);
     var camBirimFiyat = cam === 'Şeffaf' ? p.seffafCamFiyatiUsdM2 : (cam === 'Konfor' ? p.konforCamFiyatiUsdM2 : p.renkliCamFiyatiUsdM2);
